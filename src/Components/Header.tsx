@@ -1,6 +1,8 @@
 import React from "react";
 import logo from "../images/logo.svg";
+import { useNavigate } from "react-router";
 const Header = () => {
+  const changePage=useNavigate()
   return (
     <header className="flex flex-col">
       <div className="flex gap-2 justify-center items-center bg-linear-to-r from-[#ABFF7E] py-2 to-[#FDFEFF]">
@@ -30,8 +32,12 @@ const Header = () => {
           </a>
         </div>
         <div className="flex gap-2">
-         <button className="px-6 py-2 cursor-pointer bg-green-500 transition-all hover:bg-green-700 rounded-full text-white primaryTest">Get started</button>
-         <button className="px-6 py-2 cursor-pointer hover:bg-gray-50  transition-all border border-black rounded-full primaryTest">Login</button>
+         <button onClick={()=>{
+          changePage("/register")
+         }} className="px-6 py-2 cursor-pointer bg-green-500 transition-all hover:bg-green-700 rounded-full text-white primaryTest">Get started</button>
+         <button  onClick={()=>{
+          changePage("/login")
+         }}  className="px-6 py-2 cursor-pointer hover:bg-gray-50  transition-all border border-black rounded-full primaryTest">Login</button>
         </div>
       </div>
     </header>
