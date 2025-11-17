@@ -25,7 +25,7 @@ const Header = () => {
           <a href="#testimonials" className="hover:text-green-600 primaryTest">
             Testimonials
           </a>
-          <a href="#cta" className="hover:text-green-600 primaryTest">
+          <a href="#contact" className="hover:text-green-600 primaryTest">
             Contact
           </a>
         </div>

@@ -178,13 +178,15 @@ const AI_powered = () => {
         </button>
       </div>
       <div className="py-10 flex flex-col gap-10 justify-center items-center">
-        <div className="text-gray-700 primaryTest">Trusting by leading brands, including</div>
+        <div className="text-gray-700 primaryTest">
+          Trusting by leading brands, including
+        </div>
         <div className="flex gap-20">
-            <img className="h-6" src={arm1} alt="" />
-            <img className="h-6" src={arm2} alt="" />
-            <img className="h-6" src={arm3} alt="" />
-            <img className="h-6" src={arm4} alt="" />
-            <img className="h-6" src={arm5} alt="" />
+          <img className="h-6" src={arm1} alt="" />
+          <img className="h-6" src={arm2} alt="" />
+          <img className="h-6" src={arm3} alt="" />
+          <img className="h-6" src={arm4} alt="" />
+          <img className="h-6" src={arm5} alt="" />
         </div>
       </div>
     </div>
