@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com",
+  baseURL: "https://api.jioresume.com",
 });
 
 instance.interceptors.request.use((config) => {
