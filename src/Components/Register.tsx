@@ -1,22 +1,31 @@
 import React from "react";
-import { useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
+import {  useNavigate } from "react-router";
+import { useForm} from "react-hook-form"
 import axios from "../api/axios";
 import { useMutation } from "@tanstack/react-query";
-
+interface userType{
+  name:string,
+   email:string,
+  password:string
+}
 const Register = () => {
   const changePage = useNavigate();
-  const { mutate } = useMutation({
-    mutationFn: async () => {
-      const { data } = await axios.post("/api/users/register");
+  const { mutate ,isSuccess } = useMutation({
+    mutationFn: async (user:userType) => {
+      const { data } = await axios.post("/api/users/register",{
+        name:user.name,
+        email:user.email,
+        password:user.password
+      });
       return data;
+      
     },
+   
   });
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  if(isSuccess){
+    changePage("./login")
+  }
+  const {register, handleSubmit,formState: { errors}} = useForm ({
     defaultValues: {
       name: "",
       email: "",
@@ -28,7 +37,12 @@ const Register = () => {
       <div className="flex flex-col justify-center items-center bg-gray-50 h-screen">
         <form
           className="bg-white w-90 py-10 px-8 justify-center items-center flex flex-col gap-4 border border-gray-300 rounded-xl"
-          onSubmit={handleSubmit(() => {})}
+          onSubmit={handleSubmit(({name,email,password}) => {
+            mutate({name:name,email:email,password:password})
+          })
+        
+        }
+          
           action=""
         >
           <div className="flex flex-col justify-center items-center gap-2">

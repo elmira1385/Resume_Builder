@@ -1,16 +1,62 @@
-import React from "react";
-import useTrueOrFalse from "../store/useTrueOrFalse";
-import { useNavigate } from "react-router";
 
+import { useMutation } from "@tanstack/react-query";
+import axios from "../api/axios";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
+interface userType{
+   email:string,
+  password:string
+}
+interface typeResponse{
+  massage:string,
+  token:string
+  user:{
+    createdAt:string,
+email:string,
+name:string,
+updatedAt:string,
+__v:string,
+_id:string
+  }
+}
 const Login = () => {
    const changePage=useNavigate()
+   const{mutate,isSuccess,data}=useMutation<typeResponse,Error,userType>({
+    mutationFn:async(user:userType)=>{
+    const {data}=await axios.post("/api/users/login",{
+      email:user.email,
+      password:user.password
+    })
+    return data
+    }
+   })
+
+   useEffect(()=>{
+    if(isSuccess){
+      localStorage.setItem("token",data.token)
+      changePage("/dashBoard")
+    }
+   },[isSuccess])
+   useEffect(()=>{
+    if(localStorage.getItem("token")!==null){
+      changePage("/dashBoard")
+    }
+   },[])
+    const{register,handleSubmit}= useForm({
+      defaultValues:{
+        email:"",
+        password:""
+      }
+     })
+     
   return (
     <div className="flex flex-col justify-center items-center bg-gray-50 h-screen">
-      <form
+      <form 
         className="bg-white w-90 py-10 px-8 justify-center items-center flex flex-col gap-4 border border-gray-300 rounded-xl"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
+         onSubmit={handleSubmit(({email,password}) => {
+            mutate({email:email,password:password})
+          })}
         action=""
       >
         <div className="flex flex-col justify-center items-center gap-2">
@@ -38,6 +84,9 @@ const Login = () => {
             placeholder="Email id "
             className="border-none w-full outline-none primaryTest pr-8"
             type="email"
+            {...register("email",{
+              required:true
+            })}
           />
         </div>
         <div className="flex items-center w-full bg-white border border-gray-300/80 h-12 rounded-full pl-6 gap-2">
@@ -61,6 +110,9 @@ const Login = () => {
             placeholder="Password"
             className="border-none w-full outline-none primaryTest pr-8"
             type="password"
+            {...register("password",{
+              required:true
+            })}
           />
         </div>
         <p className="text-green-500 text-[12px] self-start cursor-pointer">Forget password?</p>

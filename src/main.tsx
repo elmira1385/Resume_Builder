@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import "./index.css"
 import LoginP from './pages/LoginP';
 import RegisterP from './pages/RegisterP';
+import DashboardP from './pages/DashboardP';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,11 @@ const router = createBrowserRouter([
     path: "/register",
     element:<RegisterP/> ,
   },
+  {
+    path: "/dashBoard",
+    element:<DashboardP/> ,
+  },
+  
 ]);
 
 const queryClient = new QueryClient()
