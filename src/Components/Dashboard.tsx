@@ -1,14 +1,40 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import logo1 from "../images/logo.svg"
+// import { useQuery } from '@tanstack/react-query'
+// import axios from '../api/axios'
 
+// interface Itype{
+// createdAt:string,
+// email:string,
+// name:string,
+// updatedAt:string,
+// __v:number,
+// _id:string,
+// }
+// interface Api{
+//   user:Itype,
+// }
 const Dashboard = () => {
   const changePage=useNavigate()
+  // const token=localStorage.getItem("token")
+  // const{data}=useQuery<Api>({
+  //   queryKey:["getthem"],
+  //   queryFn:async()=>{
+  //     const response=await axios.get<Api>("/api/users/data",{
+  //       headers:{
+  //         Authorization:`Bearer ${token}`
+  //       }
+  //     })
+  //     return response.data
+  //   },
+  // })
   useEffect(()=>{
     if(localStorage.getItem("token")===null){
       changePage("/login")
     }
   })
+ 
   return (
 
     <div className='flex flex-col'>
