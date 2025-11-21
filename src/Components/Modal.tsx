@@ -1,42 +1,112 @@
-import { useMutation } from '@tanstack/react-query'
-import axios from '../api/axios';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router';
-interface Type{
-title:string
+import { useMutation } from "@tanstack/react-query";
+import axios from "../api/axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import useTrueOrFalse from "../store/useTrueOrFalse";
+interface Type {
+  title: string;
 }
 const Modal = () => {
-    const[title,setTitle]=useState("")
-     const token = localStorage.getItem("token");
-     const changePage = useNavigate();
-     const { mutate} = useMutation({
-        mutationFn:async({title}:Type)=>{
-            const { data } = await axios.post(
-              "/api/resumes/create",
-              {
-                title: title,
-              },
-              {
-                headers: {
-                  Authorization: token,
-                },
-              }
-            );
-            return data
+  const [title, setTitle] = useState("");
+  const { isOpen, setIsOpen } = useTrueOrFalse();
+  const token = localStorage.getItem("token");
+  const changePage = useNavigate();
+  const { mutate } = useMutation({
+    mutationFn: async ({ title }: Type) => {
+      const { data } = await axios.post(
+        "/api/resumes/create",
+        {
+          title: title,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
         }
-     });
+      );
+      return data;
+    },
+  });
   return (
-    <form onSubmit={(e)=>{
-    e.preventDefault()
-     mutate({title:title})
-      changePage("")
-    }} className='fixed top-1/2 flex flex-col justify-center items-center gap-4 left-1/2 bg-gray-400 -translate-1/2 w-[300px] p-10'>
-    <input value={title} onChange={(e)=>{
-      setTitle(e.target.value);
-    }} className='border border-black px-2' type="text" />
-    <button type='submit'>click</button>
-    </form>
-  )
-}
+    isOpen && (
+      <div
+        onClick={() => {
+          setIsOpen(false);
+        }}
+        className="w-full h-full bg-black/70 backdrop-blur fixed top-0 left-0 z-20 flex justify-center items-center"
+      >
+        <div
+          className="flex flex-col z-50 gap-4 bg-white w-[400px] p-6 rounded-lg"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div className="flex justify-between">
+            <p className="font-bold text-[20px]">Create a Resume</p>{" "}
+            <button>
+              <svg onClick={()=>{
+                setIsOpen(false)
+              }}
+                width="18px"
+                height="18px"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>i</title>
+                <g id="Complete">
+                  <g id="x">
+                    <g>
+                      <line
+                        x1="5"
+                        y1="4.8"
+                        x2="19"
+                        y2="19.2"
+                        fill="none"
+                        stroke="#000000"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                      />
+                      <line
+                        x1="19"
+                        y1="4.8"
+                        x2="5"
+                        y2="19.2"
+                        fill="none"
+                        stroke="#000000"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                      />
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </button>
+          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              mutate({ title: title });
+              setIsOpen(false)
+              changePage("/Builder");
+            }}
+            className=" flex flex-col  gap-2 "
+          >
+            <input placeholder="Enter resume title"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+              className="border primaryTest border-gray-300 px-3 py-2 w-full rounded-lg active:outline-1 outline-green-600"
+              type="text"
+            />
+            <button className="bg-green-600 primaryTest  py-2 rounded-lg text-white" type="submit">Create Resume</button>
+          </form>
+        </div>
+      </div>
+    )
+  );
+};
 
-export default Modal
+export default Modal;

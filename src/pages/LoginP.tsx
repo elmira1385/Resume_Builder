@@ -4,10 +4,10 @@ import Register from '../Components/Register'
 import useTrueOrFalse from '../store/useTrueOrFalse'
 
 const LoginP = () => {
-    const {isOpenLogin} = useTrueOrFalse()
+    const {isOpen} = useTrueOrFalse()
   return (
     <div>
-        {isOpenLogin?<Register/>:<Login/>}  
+        {isOpen?<Register/>:<Login/>}  
     </div>
   )
 }

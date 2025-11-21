@@ -8,6 +8,7 @@ import "./index.css"
 import LoginP from './pages/LoginP';
 import RegisterP from './pages/RegisterP';
 import DashboardP from './pages/DashboardP';
+import  Builder from './pages/Builder';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/dashBoard",
     element:<DashboardP/> ,
+  },
+  {
+    path: "/Builder",
+    element:<Builder/> ,
   },
   
 ]);
