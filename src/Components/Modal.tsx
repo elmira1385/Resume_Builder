@@ -1,19 +1,50 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "../api/axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import useTrueOrFalse from "../store/useTrueOrFalse";
-interface Type {
-  title: string;
+import { useTitle } from "../store/addTitle";
+
+
+interface ResumeT{
+  title:string,
+  resumeId?:string
 }
-const Modal = () => {
-  const [title, setTitle] = useState("");
+
+type Edit={
+  initialData?:ResumeT,
+  onClose?:()=>void
+  isOpen?:boolean
+}
+
+
+const Modal = ({initialData}:Edit) => {
+
+  const{title,setTitle}=useTitle()
+  useEffect(()=>{
+    if(initialData?.title){
+      setTitle(initialData.title)
+    }else{
+      setTitle("")
+    }
+  },[initialData])
   const { isOpen, setIsOpen } = useTrueOrFalse();
-  const token = localStorage.getItem("token");
+  
   const changePage = useNavigate();
-  const { mutate } = useMutation({
-    mutationFn: async ({ title }: Type) => {
-      const { data } = await axios.post(
+  
+const saveResume=async({title,resumeId}:ResumeT)=>{
+  const token = localStorage.getItem("token");
+  if(resumeId){
+  return await axios.put(`/api/resumes/update/${resumeId}`,{
+     resumeId:resumeId,
+      title:title,
+    },{
+      headers:{
+        Authorization:token
+      }
+    })
+  }else{
+    return await axios.post(
         "/api/resumes/create",
         {
           title: title,
@@ -24,9 +55,20 @@ const Modal = () => {
           },
         }
       );
-      return data;
-    },
+   }
+}
+
+  const { mutate } = useMutation({
+    mutationFn: saveResume,
+    onSuccess:()=>{
+      setTitle(""),
+      setIsOpen(false)
+      changePage("/Builder") 
+    }
   });
+
+  
+   
   return (
     isOpen && (
       <div
@@ -87,9 +129,8 @@ const Modal = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              mutate({ title: title });
-              setIsOpen(false)
-              changePage("/Builder");
+              mutate({title:title,resumeId:initialData?.resumeId})
+             
             }}
             className=" flex flex-col  gap-2 "
           >
@@ -101,7 +142,7 @@ const Modal = () => {
               className="border primaryTest border-gray-300 px-3 py-2 w-full rounded-lg active:outline-1 outline-green-600"
               type="text"
             />
-            <button className="bg-green-600 primaryTest  py-2 rounded-lg text-white" type="submit">Create Resume</button>
+            <button className="bg-green-600 primaryTest  py-2 rounded-lg text-white" type="submit">{initialData?"save changes":"Create Resume"}</button>
           </form>
         </div>
       </div>

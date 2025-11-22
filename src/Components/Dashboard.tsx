@@ -10,7 +10,7 @@ const Dashboard = () => {
     <div className='flex flex-col '>
       <HeaderD/>
       <Add_name_resume/>
-      <Modal/>
+      <Modal />
     </div>
   );
 }
