@@ -25,7 +25,7 @@ const Modal = ({initialData}:Edit) => {
     }else{
       setTitle("")
     }
-  },[initialData,setTitle])
+  },[initialData])
   const { isOpen, setIsOpen } = useTrueOrFalse();
   const changePage = useNavigate();
 
@@ -33,8 +33,8 @@ const saveResume=async({resumeData,resumeId}:ResumeT)=>{
   const token = localStorage.getItem("token");
   if(resumeId){
   return await axios.put("/api/resumes/update",{
-     resumeId:resumeId,
-     resumeData:resumeData
+     resumeId,
+     title:resumeData.title
     },{
       headers:{
         Authorization:token
@@ -78,7 +78,7 @@ const saveResume=async({resumeData,resumeId}:ResumeT)=>{
           }}
         >
           <div className="flex justify-between">
-            <p className="font-bold text-[20px]">Create a Resume</p>
+            <p className="font-bold text-[20px]">{initialData?"edit resume":"Create a Resume"}</p>
             <button>
               <svg onClick={()=>{
                 setIsOpen(false)
