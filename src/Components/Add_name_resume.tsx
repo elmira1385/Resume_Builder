@@ -15,7 +15,7 @@ interface ResumeT{
 const Add_name_resume = () => {
   const token = localStorage.getItem("token");
   const [selected,setSelected]=useState<{resumeData:{title:string},resumeId?:string}|undefined>(undefined)
-  const {data}=useQuery<ResumeT[]>({
+  const {data ,refetch}=useQuery<ResumeT[]>({
     queryKey:["resume"],
     queryFn:async()=>{
       const {data}=await axios.get("api/users/resumes",{
@@ -42,7 +42,7 @@ const Add_name_resume = () => {
   const handelDelete=(_id:string)=>{
     mutate(_id,{
       onSuccess:()=>{
-        window.location.reload()
+        refetch()
       }
     })
   }
@@ -54,6 +54,7 @@ const Add_name_resume = () => {
       <div className="flex gap-4 ">
         <button
           onClick={() => {
+            setSelected(undefined)
             setIsOpen(true);
           }}
           className=" bg-white w-36 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-indigo-500 hover:shadow-lg transition-all duration-300 cursor-pointer"
@@ -157,11 +158,11 @@ const Add_name_resume = () => {
                   <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                 </svg>
                 <svg onClick={()=>{
-                  setIsOpen(true)
                   setSelected({
                     resumeData:{title:Item.title},
                     resumeId:Item._id
                   })
+                  setIsOpen(true)
                   
                 }}
                   xmlns="http://www.w3.org/2000/svg"
@@ -184,9 +185,9 @@ const Add_name_resume = () => {
           </li>
        ))}
       </ul>
-      {isOpen&&(
-        <Modal initialData={selected} onClose={()=>setIsOpen(false)} isOpen={isOpen} />
-      )}
+      {isOpen&&
+        <Modal initialData={selected} onClose={()=>setIsOpen(false)}  />
+      }
     </div>
   );
 };

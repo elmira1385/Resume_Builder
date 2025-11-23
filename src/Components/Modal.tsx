@@ -5,9 +5,8 @@ import { useNavigate } from "react-router";
 import useTrueOrFalse from "../store/useTrueOrFalse";
 import { useTitle } from "../store/addTitle";
 
-
 interface ResumeT{
-  resumeId:string,
+  resumeId?:string,
   resumeData:{
     title:string,
   }
@@ -16,10 +15,7 @@ interface ResumeT{
 type Edit={
   initialData?:ResumeT,
   onClose?:()=>void
-  isOpen?:boolean
 }
-
-
 const Modal = ({initialData}:Edit) => {
 
   const{title,setTitle}=useTitle()
@@ -31,9 +27,8 @@ const Modal = ({initialData}:Edit) => {
     }
   },[initialData,setTitle])
   const { isOpen, setIsOpen } = useTrueOrFalse();
-  
   const changePage = useNavigate();
-  
+
 const saveResume=async({resumeData,resumeId}:ResumeT)=>{
   const token = localStorage.getItem("token");
   if(resumeId){
@@ -49,7 +44,7 @@ const saveResume=async({resumeData,resumeId}:ResumeT)=>{
     return await axios.post(
         "/api/resumes/create",
         {
-          title: title,
+          title: resumeData.title,
         },
         {
           headers: {
@@ -68,11 +63,8 @@ const saveResume=async({resumeData,resumeId}:ResumeT)=>{
       changePage("/Builder") 
     }
   });
-
-  
-   
+ if(!isOpen)return null
   return (
-    isOpen && (
       <div
         onClick={() => {
           setIsOpen(false);
@@ -86,7 +78,7 @@ const saveResume=async({resumeData,resumeId}:ResumeT)=>{
           }}
         >
           <div className="flex justify-between">
-            <p className="font-bold text-[20px]">Create a Resume</p>{" "}
+            <p className="font-bold text-[20px]">Create a Resume</p>
             <button>
               <svg onClick={()=>{
                 setIsOpen(false)
@@ -131,8 +123,12 @@ const saveResume=async({resumeData,resumeId}:ResumeT)=>{
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              mutate({resumeData:{title:title},resumeId:initialData?.resumeId||""})
-             
+              if(initialData?.resumeId){
+               mutate({resumeId:initialData.resumeId,resumeData:{title:title}})
+              }else{
+                mutate({resumeData:{title}})
+              }
+              
             }}
             className=" flex flex-col  gap-2 "
           >
@@ -148,7 +144,7 @@ const saveResume=async({resumeData,resumeId}:ResumeT)=>{
           </form>
         </div>
       </div>
-    )
+    
   );
 };
 
