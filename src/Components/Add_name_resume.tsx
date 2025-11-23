@@ -3,14 +3,8 @@ import useTrueOrFalse from "../store/useTrueOrFalse";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "../api/axios";
 import Modal from "./Modal";
-interface ResumeT{
-  title:string,
-  resumeId:string
-}
 
-type Edit={
-  initialData?:ResumeT,
-}
+
 
 interface ResumeT{
   accent_color:string
@@ -20,7 +14,7 @@ interface ResumeT{
 }
 const Add_name_resume = () => {
   const token = localStorage.getItem("token");
-  const [selected,setSelected]=useState<ResumeT|undefined>(undefined)
+  const [selected,setSelected]=useState<{resumeData:{title:string},resumeId?:string}|undefined>(undefined)
   const {data}=useQuery<ResumeT[]>({
     queryKey:["resume"],
     queryFn:async()=>{
@@ -164,7 +158,10 @@ const Add_name_resume = () => {
                 </svg>
                 <svg onClick={()=>{
                   setIsOpen(true)
-                  setSelected(Item)
+                  setSelected({
+                    resumeData:{title:Item.title},
+                    resumeId:Item._id
+                  })
                   
                 }}
                   xmlns="http://www.w3.org/2000/svg"

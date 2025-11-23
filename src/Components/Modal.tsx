@@ -7,8 +7,10 @@ import { useTitle } from "../store/addTitle";
 
 
 interface ResumeT{
-  title:string,
-  resumeId?:string
+  resumeId:string,
+  resumeData:{
+    title:string,
+  }
 }
 
 type Edit={
@@ -22,22 +24,22 @@ const Modal = ({initialData}:Edit) => {
 
   const{title,setTitle}=useTitle()
   useEffect(()=>{
-    if(initialData?.title){
-      setTitle(initialData.title)
+    if(initialData?.resumeData.title){
+      setTitle(initialData.resumeData.title)
     }else{
       setTitle("")
     }
-  },[initialData])
+  },[initialData,setTitle])
   const { isOpen, setIsOpen } = useTrueOrFalse();
   
   const changePage = useNavigate();
   
-const saveResume=async({title,resumeId}:ResumeT)=>{
+const saveResume=async({resumeData,resumeId}:ResumeT)=>{
   const token = localStorage.getItem("token");
   if(resumeId){
-  return await axios.put(`/api/resumes/update/${resumeId}`,{
+  return await axios.put("/api/resumes/update",{
      resumeId:resumeId,
-      title:title,
+     resumeData:resumeData
     },{
       headers:{
         Authorization:token
@@ -129,7 +131,7 @@ const saveResume=async({title,resumeId}:ResumeT)=>{
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              mutate({title:title,resumeId:initialData?.resumeId})
+              mutate({resumeData:{title:title},resumeId:initialData?.resumeId||""})
              
             }}
             className=" flex flex-col  gap-2 "
