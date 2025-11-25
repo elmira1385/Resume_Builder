@@ -8,7 +8,6 @@ const Builder = () => {
   const changePage = useNavigate();
   const{register,watch}=useForm({
     defaultValues:{
-    
       FullName:"",
       EmailAddress:"",
       PhoneNumber:"",

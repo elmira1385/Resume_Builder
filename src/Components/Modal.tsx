@@ -14,9 +14,9 @@ interface ResumeT{
 
 type Edit={
   initialData?:ResumeT,
-  onClose?:()=>void
+  refetch:()=>void
 }
-const Modal = ({initialData}:Edit) => {
+const Modal = ({initialData , refetch}:Edit) => {
 
   const{title,setTitle}=useTitle()
   useEffect(()=>{
@@ -31,10 +31,12 @@ const Modal = ({initialData}:Edit) => {
 
 const saveResume=async({resumeData,resumeId}:ResumeT)=>{
   const token = localStorage.getItem("token");
-  if(resumeId){
+  if(initialData){
   return await axios.put("/api/resumes/update",{
      resumeId,
-     title:resumeData.title
+     resumeData:{
+      title:resumeData.title
+     }
     },{
       headers:{
         Authorization:token
@@ -60,7 +62,10 @@ const saveResume=async({resumeData,resumeId}:ResumeT)=>{
     onSuccess:()=>{
       setTitle(""),
       setIsOpen(false)
-      changePage("/Builder") 
+      refetch()
+      if(!initialData){
+        changePage("/Builder") 
+      }
     }
   });
  if(!isOpen)return null

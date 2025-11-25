@@ -8,7 +8,7 @@ import Modal from "./Modal";
 
 interface ResumeT{
   accent_color:string
-_id:string  
+  _id:string  
   title:string
   updatedAt:string
 }
@@ -186,7 +186,7 @@ const Add_name_resume = () => {
        ))}
       </ul>
       {isOpen&&
-        <Modal  initialData={selected} onClose={()=>setIsOpen(false)}  />
+        <Modal initialData={selected}  refetch={refetch} />
       }
     </div>
   );
