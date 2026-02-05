@@ -3,7 +3,6 @@ import logo1 from "../images/logo.svg"
 import { useQuery } from '@tanstack/react-query'
 import axios from '../api/axios'
 import { useEffect } from 'react'
-import useTrueOrFalse from '../store/useTrueOrFalse'
 
 interface Itype{
 createdAt:string,
@@ -19,7 +18,6 @@ interface Api{
 
 const HeaderD = () => {
     const changePage=useNavigate()
-      const{setIsOpen}=useTrueOrFalse()
   const token=localStorage.getItem("token")
 
   const{data}=useQuery<Api>({

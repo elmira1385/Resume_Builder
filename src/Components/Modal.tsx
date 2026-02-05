@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "../api/axios";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import useTrueOrFalse from "../store/useTrueOrFalse";
 import { useTitle } from "../store/addTitle";

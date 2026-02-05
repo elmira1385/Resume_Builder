@@ -1,4 +1,4 @@
-import React from "react";
+
 import { motion } from "framer-motion";
 import animateSliderImg1 from "../images/1.avif";
 import animateSliderImg2 from "../images/photo-4jpg.jpg";

@@ -1,4 +1,4 @@
-import React from "react";
+
 import logo from "../images/logo.svg";
 import { useNavigate } from "react-router";
 const Header = () => {

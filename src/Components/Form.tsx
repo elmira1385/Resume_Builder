@@ -1,4 +1,4 @@
-import React from "react";
+
 import type { UseFormRegister } from "react-hook-form";
 interface Personal {
   FullName: string;

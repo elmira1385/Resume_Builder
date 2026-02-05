@@ -1,4 +1,4 @@
-import Modal from './Modal'
+
 import HeaderD from './HeaderD'
 import Add_name_resume from './Add_name_resume';
 

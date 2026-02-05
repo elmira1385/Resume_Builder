@@ -1,4 +1,3 @@
-import React from "react";
 
 const Build_Professional_Resume = () => {
   return (
