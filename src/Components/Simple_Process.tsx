@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import png from "/src/images/group-image-1.png"
 
 type typeFeatures = [
   {
@@ -85,7 +85,7 @@ const Simple_Process = () => {
         <div>
           <img
             className="h-[668px] w-full"
-            src="./src/images/group-image-1.png"
+            src={png}
             alt=""
           />
         </div>
