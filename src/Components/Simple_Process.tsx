@@ -28,21 +28,21 @@ const Simple_Process = () => {
       title: "Real-Time Analytics",
       description:
         "Get instant insights into your finances with live dashboards.",
-      svg: "./src/images/key.png",
+      svg: "/key.png",
       n: "bg-violet-100",
     },
     {
       title: "Bank-Grade Security",
       description:
         "End-to-end encryption, 2FA, compliance with GDPR standards.",
-      svg: "./src/images/pen.png",
+      svg: "/pen.png",
       n: "bg-green-100",
     },
     {
       title: "Customizable Reports",
       description:
         "Export professional, audit-ready financial reports for tax or internal review.",
-      svg: "./src/images/download.png",
+      svg: "/download.png",
       n: "bg-orange-100",
     },
   ];
